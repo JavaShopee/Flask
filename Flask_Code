@@ -10,3 +10,16 @@ def hello():
 app.run(debug=True)
 
 ***************************
+
+Adding Image from static folder :
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The sample title goes here</title>
+</head>
+<body>	
+  <img src="{{ url_for('static', filename='delhi.jpg') }}">	
+  The sample text goes here 
+</body>
+</html>
