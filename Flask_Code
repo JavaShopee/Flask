@@ -361,6 +361,7 @@ urlpatterns = [
 views.py 
 
 from django.shortcuts import render,redirect
+from django.contrib import messages
 from django.contrib.auth.models import User, auth
 
 # Create your views here.
@@ -371,20 +372,29 @@ def register(request):
     if request.method == 'POST':
         first_name = request.POST['fname'] 
         last_name = request.POST['lname']
-        user_name = request.POST['username']
+        username = request.POST['username']
         email = request.POST['email']
         passowrd1 = request.POST['password1']
         passowrd2 = request.POST['password2']
 
-        user = User.objects.create_user(username = user_name, password = passowrd1, email = email, first_name = first_name, last_name  = last_name)
-        user.save()
-        print('User Creeated')
+        if passowrd1==passowrd2:
+            if User.objects.filter(username=username).exists():
+                messages.info(request, 'Username Taken')
+                return redirect("register")
+            elif User.objects.filter(email=email).exists():
+                print('Email taken')
+                return redirect("register")
+            else:    
+                user = User.objects.create_user(username = username, password = passowrd1, email = email, first_name = first_name, last_name  = last_name)
+                user.save()
+                print('User Created')
+        else:
+            messages.info(request, 'Password Not Matching')
+            return redirect("register")    
         return redirect("/")
 
 
     return render(request, 'register.html') 
-    
-    
     
     
     regsiter.html
@@ -402,6 +412,13 @@ def register(request):
     
 
     </form>
+    
+    <div>
+        {% for message in messages %}
+        <h4>{{ message }}</h4>
+        {% endfor %}
+
+    </div>
 </body>
 
 
