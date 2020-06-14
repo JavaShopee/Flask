@@ -158,5 +158,88 @@ Result
 **********************************
     
     
+*****************************travello*******************
+
+python manage.py startapp travello
+
+settings.py
+
+Self folder(place all static files in static folder in root dir)
+STATICFILES_DIRS = [
+     os.path.join(BASE_DIR,'static')
+]
+
+Django folder
+STATIC_ROOT = os.path.join(BASE_DIR,'assets')
+
+
+python manage.py collectstatic  >> copy files from static to django foldera assets
     
+ 
+models.py 
+
+from django.db import models
+
+# Create your models here.
+
+
+class Destination:
+    id : int
+    name: str
+    image: str
+    desc : str
+    price: int
+    
+
+views.py 
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import Destination
+
+# Create your views here.
+
+
+def index(request):
+    
+    obj1 = Destination()
+    obj1.name = 'Mumbai'
+    obj1.image = 'destination_1.jpg'
+    obj1.desc = 'The Mumbai City'
+    obj1.price = 7000
+
+    obj2 = Destination()
+    obj2.name = 'Pune'
+    obj2.image = 'destination_2.jpg'
+    obj2.desc = 'The Pune City'
+    obj2.price = 6000
+
+    obj3 = Destination()
+    obj3.name = 'Surat'
+    obj3.image = 'destination_3.jpg'
+    obj3.desc = 'The Surat City'
+    obj3.price = 8000
+
+    dests = [obj1,obj2,obj3]
+
+    return render(request,'index.html',{'dests':dests})
+    
+    
+    
+    index.html
+    {% for dest in dests %}
+						<!-- Destination -->
+						<div class="destination item">
+							<div class="destination_image">
+								<img src="{{baseURL}}/{{dest.image}}" alt="">
+								{% if dest.offer %}
+								<div class="spec_offer text-center"><a href="#">Special Offer</a></div>
+								{% endif %}
+							</div>
+							<div class="destination_content">
+								<div class="destination_title"><a href="destinations.html">{{ dest.name }}</a></div>
+								<div class="destination_subtitle"><p>{{ dest.desc }}.</p></div>
+								<div class="destination_price">From ${{ dest.price }}</div>
+							</div>
+						</div>
+                    {% endfor %}
 	
