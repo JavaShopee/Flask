@@ -140,7 +140,10 @@ urlpatterns = [
 views.py of subpro
 
 def add(request):
-    return render(request, "result.html")
+    num1 = request.GET['num1']
+    num2 = request.GET['num2']
+    addition = int(num1) + int(num2)
+    return render(request, "result.html",{'add':addition})
 
 
 result.html in templates> res.html
