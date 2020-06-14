@@ -327,10 +327,81 @@ index.html
 
 
 
+************************************User Registration**************************************
+
+python manage.py startapp accounts
+urls.py 
+from django.urls import path
+from . import views
 
 
 
+urlpatterns = [
+    path('register', views.register, name='register'),
+    
+]
 
 
+urls.py of main 
+
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('', include('travello.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
+    
+] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
+
+
+views.py 
+
+from django.shortcuts import render,redirect
+from django.contrib.auth.models import User, auth
+
+# Create your views here.
+
+
+def register(request):
+
+    if request.method == 'POST':
+        first_name = request.POST['fname'] 
+        last_name = request.POST['lname']
+        user_name = request.POST['username']
+        email = request.POST['email']
+        passowrd1 = request.POST['password1']
+        passowrd2 = request.POST['password2']
+
+        user = User.objects.create_user(username = user_name, password = passowrd1, email = email, first_name = first_name, last_name  = last_name)
+        user.save()
+        print('User Creeated')
+        return redirect("/")
+
+
+    return render(request, 'register.html') 
+    
+    
+    
+    
+    regsiter.html
+    
+    <body>
+    <form action="register" method="post">
+        {% csrf_token %}
+    <input type="text" name="fname" placeholder="First Name" /> <br>   
+    <input type="text" name="lname" placeholder="Last Name" /><br>
+    <input type="text" name="username" placeholder="Username" /><br>
+    <input type="email" name="email" placeholder="EMAIL" /> <br>
+    <input type="password" name="password1" placeholder="Password" /><br>
+    <input type="password" name="password2" placeholder="Confirm Password" /><br>
+    <input type="submit" />
+    
+
+    </form>
+</body>
 
 
