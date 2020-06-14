@@ -69,3 +69,40 @@ urlpatterns = [
     path('', include('calc.urls')),
     path('admin/', admin.site.urls),
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Adding Templates
+create templates> home.html in root dir
+
+in settings.py 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
+
+in views.py of sub project :
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+
+
+def home(request):
+    return render(request, 'home.html')
+def home(request):
+    name='Sachin'
+    return render(request, 'home.html',{'name':'Sachin'})    
+    
+	
