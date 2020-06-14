@@ -318,6 +318,15 @@ urlpatterns = [
 
 
 
+views.py 
+
+dests = Destination.objects.all()
+
+index.html
+<img src="{{dest.image.url}}" alt="">
+
+
+
 
 
 
