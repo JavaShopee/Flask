@@ -103,6 +103,57 @@ def home(request):
     return render(request, 'home.html')
 def home(request):
     name='Sachin'
-    return render(request, 'home.html',{'name':'Sachin'})    
+    return render(request, 'home.html',{'name':'Sachin'})  
+    
+    
+    
+    
+******Template Inheritence ****
+base.html inside templates
+
+<body bgcolor="cyan">
+    {% block content %} {% endblock %}
+    
+home.html
+{% extends 'base.html' %}
+
+ {% block content %}
+    Hello Java!! {{ name }}
+    {% endblock %}
+    
+***********************************    
+
+
+Add two nums :
+
+in urls.py of sub :
+from django.urls import path
+from . import views
+
+
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('add', views.add, name='add'),
+]
+
+views.py of subpro
+
+def add(request):
+    return render(request, "result.html")
+
+
+result.html in templates> res.html
+
+{% extends 'base.html' %}
+{% block content %}
+
+Result 
+
+{% endblock %}
+
+**********************************
+    
+    
     
 	
