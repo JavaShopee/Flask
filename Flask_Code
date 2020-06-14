@@ -23,3 +23,49 @@ Adding Image from static folder :
   The sample text goes here 
 </body>
 </html>
+***************************************************
+
+
+
+pip install virtualenvwrapper-win
+mkvirtualenv mytest
+pip install django
+django-admin --version
+mkdir projetcs
+cd projects
+
+django-admin startproject myproject
+cd myproject
+python manage.py runserver
+workon test
+python manage.py startapp calc
+create urls.py in calc
+
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('', views.home, name='home'),
+]
+
+
+In Views.py :
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+
+
+def home(request):
+    return HttpResponse("Hello World")
+    
+    
+    
+urls.py of main project :
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('', include('calc.urls')),
+    path('admin/', admin.site.urls),
+]
